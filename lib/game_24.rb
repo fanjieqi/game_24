@@ -1,12 +1,12 @@
 # The class of Game24
 class Game24
 
-  OPERATIONS = %w(+ - * /).repeated_permutation(3).to_a
-
   def initialize(params = {})
-    @array = params[:array]
+    @array      = params[:array]
+    @value      = params[:value] || 24
+    @operations = %w(+ - * /).repeated_permutation(@array.size - 1).to_a
     @hash = {}
-    @ans
+    @ans  = nil
   end
 
   # The calculator of (num1 op num2)
@@ -85,11 +85,11 @@ class Game24
   # To get the ans
   def work
     @array.permutation.to_a.uniq.each do |arr|
-      OPERATIONS.each do |op|
+      @operations.each do |op|
         try(arr.map(&:to_f), op)
       end
     end
-    @ans = @hash.keep_if{|k, v| v == 24.0 && k.scan(/[\+\-\*\/]/).size == 3}.keys
+    @ans = @hash.keep_if{|k, v| v == @value.to_f && k.scan(/[\+\-\*\/]/).size == 3}.keys
     @ans
   end
 
