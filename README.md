@@ -1,24 +1,21 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This project calculates the all answer to 24 consists of numbers and the operations(+, - ,* ,/)
 
-Things you may want to cover:
+eg.
 
-* Ruby version
+```ruby
+    rake 'game_24[3,3,6,6]' 
+    #3*((6/3)+6)=24
+    
+    rake 'game_24[3,2,3,4]'
+    #无解
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+    rake 'game_24[5,5,6,6]'
+    #((5-6)+5)*6=24
+    #((5+5)-6)*6=24
+    #(5*5)-(6/6)=24
+    #(5-(6-5))*6=24
+    #(6-(6/5))*5=24
+    
+```
