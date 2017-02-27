@@ -1,5 +1,5 @@
 # The class of Game24
-class Game24
+class Game24Calculator
 
   def initialize(params = {})
     @array      = params[:array]
