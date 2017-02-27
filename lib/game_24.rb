@@ -27,13 +27,6 @@ class Game24
     arr = arr.sort if op.all?{|tmp| tmp == "+"} || op.all?{|tmp| tmp == "*"}
     arr = [arr[0]] + arr[1..-1].sort if op.all?{|tmp| tmp == "/"}
 
-    if op.all?{|tmp| tmp == "*" || tmp == "/"} && op.inject(0){|sum, tmp| sum += tmp == "/" ? 1 : 0} == 1
-      tmp = op.index("/") || op.index("-")
-      arr[tmp+1], arr[-1] = arr[-1], arr[tmp + 1]
-      op[tmp],    op[-1]  = op[-1],  op[tmp]
-      arr = arr[0..-2].sort << arr[-1]
-    end
-
     exp = arr.zip(op).flatten.map(&:to_s).join
     return {exp => @hash[exp]} if @hash[exp]
 
@@ -46,21 +39,8 @@ class Game24
       left_op   = 0 > i-1 ? [] : op[0..i-1]
       right_op  = op[i+1..arr.size-2]
 
-      if left_op.all?{|tmp| tmp == "*"} || left_op.all?{|tmp| tmp == "+"}
-        num1 = try(left_arr.sort, left_op)
-      elsif left_op.all?{|tmp| tmp == "/"}
-        num1 = try([left_arr[0]] + left_arr[1..-1].sort, left_op)
-      else
-        num1 = try(left_arr, left_op)
-      end
-
-      if right_op.all?{|tmp| tmp == "*"} || right_op.all?{|tmp| tmp == "+"}
-        num2 = try(right_arr.sort, right_op)
-      elsif right_op.all?{|tmp| tmp == "/"}
-        num2 = try([right_arr[0]] + right_arr[1..-1].sort, right_op)
-      else
-        num2 = try(right_arr, right_op)
-      end
+      num1 = try(left_arr, left_op)
+      num2 = try(right_arr, right_op)
 
       num1.each do |exp1, n1|
         num2.each do |exp2, n2|
