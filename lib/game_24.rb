@@ -6,8 +6,7 @@ class Game24Calculator
     @value      = (params[:value] || 24).to_f
     @size       = (params[:size]  || @array.size).to_i
     @operations = %w(+ - * /).repeated_permutation(@size - 1).to_a
-    @hash = {}
-    @ans  = nil
+    @hash       = @array.zip(@array.map(&:to_f)).to_h
   end
 
   # The calculator of (num1 op num2)
@@ -70,8 +69,7 @@ class Game24Calculator
         try(arr.map(&:to_f), op)
       end
     end
-    @ans = @hash.keep_if{|k, v| v == @value && k.scan(/[\+\-\*\/]/).size == @size - 1}.keys
-    @ans
+    @hash.keep_if{|k, v| v == @value && k.scan(/[\+\-\*\/]/).size == @size - 1}.keys
   end
 
 end
