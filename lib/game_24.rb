@@ -3,8 +3,9 @@ class Game24Calculator
 
   def initialize(params = {})
     @array      = params[:array]
-    @value      = params[:value] || 24
-    @operations = %w(+ - * /).repeated_permutation(@array.size - 1).to_a
+    @value      = (params[:value] || 24).to_f
+    @size       = (params[:size]  || @array.size).to_i
+    @operations = %w(+ - * /).repeated_permutation(@size - 1).to_a
     @hash = {}
     @ans  = nil
   end
@@ -64,12 +65,12 @@ class Game24Calculator
 
   # To get the ans
   def work
-    @array.permutation.to_a.uniq.each do |arr|
+    @array.permutation(@size).to_a.uniq.each do |arr|
       @operations.each do |op|
         try(arr.map(&:to_f), op)
       end
     end
-    @ans = @hash.keep_if{|k, v| v == @value.to_f && k.scan(/[\+\-\*\/]/).size == 3}.keys
+    @ans = @hash.keep_if{|k, v| v == @value && k.scan(/[\+\-\*\/]/).size == @size - 1}.keys
     @ans
   end
 
